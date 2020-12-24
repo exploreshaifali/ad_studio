@@ -10,4 +10,8 @@ def index():
 
 @app.post("/feed/")
 def process_feed(template_id: int, file: UploadFile = File(...)):
+	# fetch template
+	data = file.file.read().strip()
+	# update template
+	# generate image
 	pass
