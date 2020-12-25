@@ -1,4 +1,9 @@
+import copy
+
 from fastapi import FastAPI, File, UploadFile
+
+from .images import generate_image
+from .templates import fetch_template, update_tempalte
 
 app = FastAPI()
 
@@ -11,7 +16,12 @@ def index():
 @app.post("/feed/")
 def process_feed(template_id: int, file: UploadFile = File(...)):
 	# fetch template
-	data = file.file.read().strip()
-	# update template
-	# generate image
-	pass
+	template = fetch_template(template_id)
+	data = file.file.read().strip().decode("utf-8")
+	rows = data.split("\n")
+	for row in rows[1:]:
+		# update template
+		updated_template = update_tempalte(copy.deepcopy(template), row)
+		# generate image
+		image = generate_image(updated_template)
+	return "Images generated."
