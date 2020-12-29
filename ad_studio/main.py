@@ -1,6 +1,6 @@
 import copy
 
-from fastapi import FastAPI, File, UploadFile
+from fastapi import FastAPI, File, UploadFile, status
 
 from .images import generate_image
 from .templates import fetch_template, update_tempalte
@@ -13,7 +13,7 @@ def index():
 	return {"message": "Hello world!"}
 
 
-@app.post("/feed/",  status_code=201)
+@app.post("/feed/",  status_code=status.HTTP_201_CREATED)
 def process_feed(template_id: int, file: UploadFile = File(...)):
 	# fetch template
 	template = fetch_template(template_id)
