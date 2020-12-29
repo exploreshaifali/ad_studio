@@ -10,10 +10,10 @@ app = FastAPI()
 
 @app.get("/")
 def index():
-    return {"message": "Hello world!"}
+	return {"message": "Hello world!"}
 
 
-@app.post("/feed/")
+@app.post("/feed/",  status_code=201)
 def process_feed(template_id: int, file: UploadFile = File(...)):
 	# fetch template
 	template = fetch_template(template_id)
@@ -24,4 +24,4 @@ def process_feed(template_id: int, file: UploadFile = File(...)):
 		updated_template = update_tempalte(copy.deepcopy(template), row)
 		# generate image
 		image = generate_image(updated_template)
-	return "Images generated."
+	return {"message": "Images Generated"}
